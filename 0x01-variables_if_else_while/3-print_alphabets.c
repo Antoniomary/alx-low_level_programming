@@ -11,7 +11,7 @@ int main(void)
 	int i;
 
 	i = 0;
-	while (i <= 50)
+	while (i <= 51)
 	{
 		putchar(alp[i]);
 		i++;
