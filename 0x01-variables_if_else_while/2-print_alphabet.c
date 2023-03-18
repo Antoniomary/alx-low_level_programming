@@ -11,7 +11,7 @@ int main(void)
 	int i;
 
 	i = 0;
-	while (i <= 26)
+	while (i <= 25)
 	{
 		putchar(alp[i]);
 		i++;
