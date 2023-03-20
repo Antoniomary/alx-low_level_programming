@@ -21,7 +21,7 @@ int main(void)
 		f = 0;
 	while (f < 10)
 	{
-		if ((e + d) < (c + f) && (e + d) != (c + f) && c >= e && f > d)
+		if ((e + d) < (c + f) && (e + d) != (c + f) && c >= e && f >= d)
 	{
 		putchar('0' + e);
 		putchar('0' + d);
