@@ -7,40 +7,36 @@
  */
 int main(void)
 {
-	int c, d, e, f;
+	int n1, f_d, l_d;
 
-	e = 0;
-	while (e < 10)
+	int n2, f_d2, l_d2;
+
+	n1 = 0;
+	while (n1 <= 98)
 	{
-		d = 0;
-	while (d < 9)
-	{
-		c = 0;
-	while (c < 10)
-	{
-		f = 0;
-	while (f < 10)
-	{
-		if ((e + d) < (c + f) && (e + d) != (c + f) && c >= e && f >= d)
-	{
-		putchar('0' + e);
-		putchar('0' + d);
-		putchar(' ');
-		putchar('0' + c);
-		putchar('0' + f);
-		if (e + d + c + f != 35)
+		f_d = (n1 / 10 + '0');
+		l_d = (n1 % 10 + '0');
+		n2 = 0;
+		while (n2 <= 99)
 		{
-		putchar(',');
-		putchar(' ');
+			f_d2 = (n2 / 10 + '0');
+			l_d2 = (n2 % 10 + '0');
+			if (n1 < n2)
+			{
+				putchar(f_d);
+				putchar(l_d);
+				putchar(' ');
+				putchar(f_d2);
+				putchar(l_d2);
+				if (n1 != 98)
+				{
+					putchar(',');
+					putchar(' ');
+				}
+			}
+			n2++;
 		}
-	}
-	f++;
-	}
-	c++;
-	}
-	d++;
-	}
-	e++;
+		n1++;
 	}
 	putchar('\n');
 	return (0);
