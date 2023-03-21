@@ -8,12 +8,12 @@
  */
 int print_sign(int n)
 {
-	if (n == 47)
+	if (n == 48)
 	{
 		_putchar('0');
 		return (0);
 	}
-	else if (n > 47)
+	else if (n > 48)
 	{
 		_putchar('+');
 		return (1);
