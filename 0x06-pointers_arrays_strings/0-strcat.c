@@ -6,7 +6,7 @@
  * then adds a terminating null byte
  * @dest: the first string (destination to receive another string)
  * @src: the second string (to be appended to destination)
- * Return: dest (the first string after appending the second string)
+ * Return: dest
  */
 char *_strcat(char *dest, char *src)
 {
@@ -23,7 +23,7 @@ char *_strcat(char *dest, char *src)
 	{
 		src_count++;
 	}
-	for (i = 0; i <= src[src_count + 1]; i++)
+	for (i = 0; i <= src_count; i++)
 	{
 		dest[dest_count + i] = src[i];
 	}
