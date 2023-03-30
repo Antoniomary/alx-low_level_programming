@@ -3,9 +3,7 @@
  * _strcmp - it compares two strings.
  * @s1: the first string
  * @s2: the second string
- * Return: 0 if s1 and s2 are the same
- * -15 if s1 is less than s2
- * 15 if s1 is greater than s2
+ * Return: n
  */
 int _strcmp(char *s1, char *s2)
 {
