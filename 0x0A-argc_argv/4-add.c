@@ -4,7 +4,7 @@
  * main - a program that adds positive numbers.
  * @argc: the number of arguments entered to run the program
  * @argv: a pointer to the strings in argc.
- * Return: 0 (success), else
+ * Return: 0 (success), else 1 (error)
  */
 int main(int argc, char *argv[])
 {
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
 	for (i = 1; i < argc; i++)
 	{
-		if (*argv[i] >= 'a' && *argv[i] <= 'z')
+		if ((*argv[i] >= '!' && *argv[i] <= '/') || (*argv[i] >= ':' && *argv[i] <= '+'))
 		{
 			printf("Error\n");
 			return (1);
