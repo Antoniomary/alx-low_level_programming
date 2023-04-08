@@ -1,4 +1,3 @@
-#include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,8 +9,8 @@
  */
 int main(int argc, char *argv[])
 {
-	int i, add;
-	unsigned int k;
+	int i;
+	unsigned int k, add;
 	char *j;
 
 	add = 0;
