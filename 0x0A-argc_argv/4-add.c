@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 /**
  * main - a program that adds positive numbers.
  * @argc: the number of arguments entered to run the program
@@ -9,39 +10,30 @@
 int main(int argc, char *argv[])
 {
 	int i, add;
+	size_t k;
+	char *j;
 
 	add = 0;
 
-	if (argc == 1)
+	if (argc > 1)
 	{
-		printf("0\n");
-		return (0);
-	}
-
 	for (i = 1;  i < argc; i++)
 	{
-		if (*argv[i] >= '0' && *argv[i] <= '9')
+		j = argv[i];
+		for (k = 0; k < strlen(j); k++)
 		{
-			break;
+			if (j[k] < 48 || j[k] > 57)
+			{
+				printf("Error\n");
+				return (1);
+			}
+			add += atoi(j);
+			j++;
 		}
-		if (i == argc - 1)
-		{
-			printf("0\n");
-			return (0);
-		}
-	}
-
-	for (i = 1; i < argc; i++)
-	{
-		if ((*argv[i] >= '!' && *argv[i] <= '/') ||
-		(*argv[i] >= ':' && *argv[i] <= '~'))
-		{
-			printf("Error\n");
-			return (1);
-		}
-		else
-		add += atoi(argv[i]);
 	}
 	printf("%d\n", add);
+	}
+	else
+		printf("0\n");
 	return (0);
 }
