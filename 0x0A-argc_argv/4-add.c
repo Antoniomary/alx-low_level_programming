@@ -27,9 +27,9 @@ int main(int argc, char *argv[])
 				printf("Error\n");
 				return (1);
 			}
-			add += atoi(j);
-			j++;
 		}
+		add += atoi(j);
+		j++;
 	}
 	printf("%d\n", add);
 	}
