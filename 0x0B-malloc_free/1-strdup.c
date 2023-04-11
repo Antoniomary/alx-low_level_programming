@@ -34,7 +34,7 @@ char *_strdup(char *str)
  */
 int _str_len(char *strsize)
 {
-	int len = 0, i;
+	int len = 1, i;
 
 	for (i = 0; strsize[i] != '\0' ; i++)
 	{
