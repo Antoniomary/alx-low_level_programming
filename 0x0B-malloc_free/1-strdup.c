@@ -29,7 +29,7 @@ char *_strdup(char *str)
 
 /**
  * _str_len - gets the length of a string.
- * @strsize: pointer to pointer to the string we want length
+ * @strsize: pointer to the string we want length
  * Return: the length of the string.
  */
 int _str_len(char *strsize)
