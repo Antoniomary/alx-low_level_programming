@@ -9,19 +9,20 @@ int _str_len(char *strsize);
  */
 char *str_concat(char *s1, char *s2)
 {
-	unsigned int i = 0, j;
-	unsigned int length = _str_len(s1);
-	unsigned int length2 = _str_len(s2);
-	char *cat = (char *) malloc((length + length2 + 1) * sizeof(char));
+	unsigned int i = 0, j, length, length2;
+	char *cat;
+
+	if (s1 == NULL)
+		s1 = "";
+	if (s2 == NULL)
+		s2 = "";
+
+	length = _str_len(s1);
+	length2 = _str_len(s2);
+	cat = (char *) malloc((length + length2 + 1) * sizeof(char));
 
 	if (cat == NULL)
 		return (0);
-	if (s1 == NULL && s2 == NULL)
-		return (0);
-	if (s1 == NULL)
-		return (s2);
-	if (s2 == NULL)
-		return (s1);
 	for (i = 0; s1[i] != '\0'; i++)
 	{
 		cat[i] = s1[i];
