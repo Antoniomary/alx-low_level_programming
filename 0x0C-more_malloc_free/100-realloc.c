@@ -10,11 +10,10 @@
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	unsigned int i;
-	char *new_ptr, *temp, *ptr1;
+	char *new_ptr, *temp, *ptr1 = ptr;
 
 	if (new_size == old_size)
 		return (ptr);
-
 	if (ptr == NULL)
 	{
 		ptr = malloc(new_size);
@@ -22,27 +21,28 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 			return (NULL);
 		return (ptr);
 	}
-
 	if (new_size == 0 && ptr != NULL)
 	{
 		free(ptr);
 		return (NULL);
 	}
-
-	/* allocates new_size to a new memory block */
+/* allocates new_size to a new memory block */
 	new_ptr = malloc(new_size);
-	if (new_ptr == NULL)
-		return (NULL);
 	temp = malloc(old_size);
-	if (temp == NULL)
+	if ((new_ptr == NULL) || (temp == NULL))
 		return (NULL);
-
-	/* copies the data from ptr to new_ptr */
-	ptr1 = ptr;
-	for (i = 0; i < old_size; i++)
-		temp[i] = ptr1[i];
+/* copies the data from ptr to new_ptr */
+	if (new_size < old_size)
+	{
+		for (i = 0; i < new_size; i++)
+			temp[i] = ptr1[i];
+	}
+	else
+	{
+		for (i = 0; i < old_size; i++)
+			temp[i] = ptr1[i];
+	}
 	free(ptr);
-
 	for (i = 0; i < old_size; i++)
 		new_ptr[i] = temp[i];
 	free(temp);
