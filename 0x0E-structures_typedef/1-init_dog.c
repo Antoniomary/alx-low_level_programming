@@ -10,6 +10,16 @@
  */
 void init_dog(struct dog *d, char *name, float age, char *owner)
 {
+	if (d == NULL)
+	{
+		/* dynamically allocating memory to *d */
+		d = malloc(sizeof(struct dog));
+		/* checks if memory was allocated or not */
+		if (d == NULL)
+			exit(0);
+	}
+
+	/* initializing the struct dog that d is pointing to */
 	(*d).name = name;
 	(*d).age = age;
 	(*d).owner = owner;
