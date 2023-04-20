@@ -16,40 +16,43 @@ int _strlen(const char *s);
  */
 void print_all(const char * const format, ...)
 {
-	char *words;
-	int i = 0, arg_num = _strlen(format);
+	char *words, *s = "";
+	int i = 0, arg_num;
 	va_list args;
 
 	va_start(args, format);
 
-	while (format && (i < arg_num))
+	if (format)
 	{
+		arg_num = _strlen(format);
+
+		while (i < arg_num)
+		{
 		switch (format[i])
 		{
 			case 'c':
-				printf("%c", va_arg(args, int));
+				printf("%s%c", s, va_arg(args, int));
 				break;
 			case 'i':
-				printf("%d", va_arg(args, int));
+				printf("%s%d", s, va_arg(args, int));
 				break;
 			case 'f':
-				printf("%f", va_arg(args, double));
+				printf("%s%f", s, va_arg(args, double));
 				break;
 			case 's':
 				words = va_arg(args, char *);
 				if (words == NULL)
-					words = "nil";
-				printf("%s", words);
+					words = "(nil)";
+				printf("%s%s", s, words);
 				break;
 			default:
 				i++;
 				continue;
 		}
-		if (i != arg_num - 1)
-			printf(", ");
+		s = ", ";
 		i++;
+		}
 	}
-
 	va_end(args);
 
 	printf("\n");
