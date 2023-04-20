@@ -2,6 +2,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+int _strlen(const char *s);
+
 /**
  * print_all - a function that prints anything.
  * @format: a list of types of arguments passed to the function.
@@ -20,7 +22,7 @@ void print_all(const char * const format, ...)
 
 	va_start(args, format);
 
-	while (i < arg_num)
+	while (format && (i < arg_num))
 	{
 		switch (format[i])
 		{
