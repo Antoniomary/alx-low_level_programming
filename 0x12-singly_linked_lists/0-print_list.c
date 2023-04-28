@@ -1,5 +1,4 @@
 #include "lists.h"
-#include <stdlib.h>
 
 /**
  * print_list - a function that prints all the elements of a
@@ -34,7 +33,9 @@ size_t print_list(const list_t *h)
 	while (tmp_h != NULL)
 	{
 		if (tmp_h->str == NULL)
+		{
 			printf("[0] (nil)\n");
+		}
 		else
 		{
 			printf("[%u] %s\n", tmp_h->len, tmp_h->str);
