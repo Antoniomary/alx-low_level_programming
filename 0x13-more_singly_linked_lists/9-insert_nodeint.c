@@ -1,6 +1,9 @@
 #include "lists.h"
 #include <stdlib.h>
 
+listint_t *insert_at_beg(listint_t **head, listint_t *new);
+listint_t *insert_at_end(listint_t **head, listint_t *new);
+
 /**
  * insert_nodeint_at_index - a function that inserts a new node
  * at a given position.
@@ -18,7 +21,6 @@ listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 
 	if (head == NULL)
 		return (NULL);
-
 	if (*head == NULL)
 		return (NULL);
 
@@ -30,14 +32,18 @@ listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 		temp = temp->next;
 	}
 
-	if (idx > num_of_nodes)
-		return (NULL);
-
 	new_node = malloc(sizeof(listint_t));
 	if (new_node == NULL)
 		return (NULL);
 
 	new_node->n = n;
+
+	if (idx == 0)
+		return (insert_at_beg(head, new_node));
+	else if (idx - 1 == num_of_nodes)
+		return (insert_at_end(head, new_node));
+	else if (idx - 1 > num_of_nodes)
+		return (NULL);
 
 	temp = *head;
 	for (i = 0; i < idx; i++)
@@ -48,4 +54,45 @@ listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 	new_node->next = aux_temp;
 
 	return (new_node);
+}
+
+/**
+ * insert_at_beg - a functions that inserts at the beginning.
+ * @head: a pointer to a pointer to a listint_t linked list.
+ * @new: the new node to insert.
+ *
+ * Return: the address of the new node.
+ */
+listint_t *insert_at_beg(listint_t **head, listint_t *new)
+{
+	listint_t *temp;
+
+	temp = *head;
+	*head = new;
+	new->next = temp;
+
+	return (new);
+}
+
+/**
+ * insert_at_end - a functions that inserts at the end.
+ * @head: a pointer to a pointer to a listint_t linked list.
+ * @new: the new node to insert.
+ *
+ * Return: the address of the new node.
+ */
+listint_t *insert_at_end(listint_t **head, listint_t *new)
+{
+	listint_t *temp;
+
+	temp = *head;
+
+	while (temp->next != NULL)
+		temp = temp->next;
+
+	new->next = NULL;
+
+	temp->next = new;
+
+	return (new);
 }
