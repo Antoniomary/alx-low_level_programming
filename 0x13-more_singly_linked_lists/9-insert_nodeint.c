@@ -44,18 +44,13 @@ listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 		return (new_node);
 	}
 
-	else if (idx >= 1 && idx <= num_of_nodes)
-	{
-		temp = *head;
-		for (i = 0; i < idx - 1; i++)
-			temp = temp->next;
+	temp = *head;
+	for (i = 0; i < idx - 1; i++)
+		temp = temp->next;
 
-		aux_temp = temp->next;
-		temp->next = new_node;
-		new_node->next = aux_temp;
+	aux_temp = temp->next;
+	temp->next = new_node;
+	new_node->next = aux_temp;
 
-		return (new_node);
-	}
-
-	return (NULL);
+	return (new_node);
 }
