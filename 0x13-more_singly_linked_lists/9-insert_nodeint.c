@@ -36,16 +36,18 @@ listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 
 	new_node->n = n;
 
-	if (*head == NULL && idx == 0)
-		return (insert_at_beg(head, new_node));
-	else if (idx == 0)
-		return (insert_at_beg(head, new_node));
-	else if (idx - 1 == num_of_nodes)
-		return (insert_at_end(head, new_node));
+	if (idx == 0)
+	{
+		new_node->next = temp;
+		*head = new_node;
+
+		return (new_node);
+	}
+
 	else if (idx >= 1 && idx <= num_of_nodes)
 	{
 		temp = *head;
-		for (i = 0; i < idx; i++)
+		for (i = 0; i < idx - 1; i++)
 			temp = temp->next;
 
 		aux_temp = temp->next;
@@ -56,45 +58,4 @@ listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 	}
 
 	return (NULL);
-}
-
-/**
- * insert_at_beg - a functions that inserts at the beginning.
- * @head: a pointer to a pointer to a listint_t linked list.
- * @new: the new node to insert.
- *
- * Return: the address of the new node.
- */
-listint_t *insert_at_beg(listint_t **head, listint_t *new)
-{
-	listint_t *temp;
-
-	temp = *head;
-	*head = new;
-	new->next = temp;
-
-	return (new);
-}
-
-/**
- * insert_at_end - a functions that inserts at the end.
- * @head: a pointer to a pointer to a listint_t linked list.
- * @new: the new node to insert.
- *
- * Return: the address of the new node.
- */
-listint_t *insert_at_end(listint_t **head, listint_t *new)
-{
-	listint_t *temp;
-
-	temp = *head;
-
-	while (temp->next != NULL)
-		temp = temp->next;
-
-	new->next = NULL;
-
-	temp->next = new;
-
-	return (new);
 }
