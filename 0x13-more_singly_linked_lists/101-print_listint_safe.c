@@ -17,7 +17,7 @@ size_t print_listint_safe(const listint_t *head)
 	const listint_t *temp = head, *loop;
 
 	if (head == NULL)
-		return (98);
+		return (0);
 	/* detects loop and removes it */
 	loop = detectAndRemoveLoop(head);
 
