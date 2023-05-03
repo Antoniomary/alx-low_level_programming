@@ -16,7 +16,7 @@ size_t print_listint_safe(const listint_t *head)
 	size_t count = 0;
 	const listint_t *temp = head, *loop;
 
-	if (head == NULL)
+	if (head == NULL || head->next == NULL)
 		return (0);
 	/* detects loop and removes it */
 	loop = detectAndRemoveLoop(head);
@@ -32,7 +32,7 @@ size_t print_listint_safe(const listint_t *head)
 	if (loop)
 	{
 		printf("-> [%p] %d\n", (void *) loop, loop->n);
-	
+
 		temp = head;
 		while (temp->next != NULL)
 			temp = temp->next;
