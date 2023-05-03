@@ -36,4 +36,9 @@ size_t print_listint_safe(const listint_t *head);
 size_t free_listint_safe(listint_t **h);
 listint_t *find_listint_loop(listint_t *head);
 
+listint_t *detectAndRemoveLoop(const listint_t *head);
+listint_t *removeLoop(const listint_t *head, const listint_t *loop);
+void detectAndRemoveLoops(listint_t *head);
+void removeLoops(listint_t *head, listint_t *loop);
+
 #endif /* LISTS_H */
