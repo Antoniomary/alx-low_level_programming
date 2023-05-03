@@ -30,7 +30,11 @@ size_t print_listint_safe(const listint_t *head)
 	}
 
 	if (loop)
+	{
 		printf("-> [%p] %d\n", (void *) loop, loop->n);
+
+		temp = loop;
+	}
 
 	return (count);
 }
