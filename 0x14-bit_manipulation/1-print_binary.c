@@ -11,7 +11,7 @@ void print_binary(unsigned long int n)
 	int bit;
 	unsigned long int mask;
 
-	mask = 4294967296;
+	mask = 4611686018427387904;
 
 	if (n == 0 || n == 1)
 	{
