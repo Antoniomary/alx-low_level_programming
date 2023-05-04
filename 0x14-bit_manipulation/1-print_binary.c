@@ -8,20 +8,18 @@
 void print_binary(unsigned long int n)
 {
 	int flag = 0;
-	int bit;
-	unsigned long int mask;
+	int bit, i;
+	unsigned long int mask = 1;
 
-	mask = 4611686018427387904;
-
-	if (n == 0 || n == 1)
+	if (n == 0)
 	{
 		_putchar(n + '0');
 		return;
 	}
 
-	for ( ; mask != 0; mask >>= 1)
+	for (i = 63; i >= 0; i--)
 	{
-		bit = mask & n ? 1 : 0;
+		bit = mask & (n >> i) ? 1 : 0;
 		if (bit == 1)
 			flag = 1;
 		if (flag)
