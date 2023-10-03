@@ -22,28 +22,31 @@ char **strtow(char *str)
 	if (words == 0)
 		return (NULL);
 
-	s = (char **) malloc(sizeof(char *) * (words + 1));
-	if (s)
+	/* allocate row for each word */
+	s = (char **) malloc(sizeof(char *) * (words + 1)); /* extra 1 for NULL */
+	if (s) /* allocation success, s is not NULL */
 	{
 		while (str[i])
 		{
-			if (!_isspace(str[i]))
+			if (!_isspace(str[i])) /* find 1st letter of any word */
 			{
+				/* get the length of the word in j */
 				for (j = 0; str[i] && !_isspace(str[i]); ++j, ++i)
 					;
 
+				/* allocate space for current word */
 				s[k] = (char *) malloc(sizeof(char) * (j + 1));
-				if (!s[k])
+				if (!s[k]) /* allocation failure */
 					return (_free(s, i));
 
-				for (l = 0; l < j; ++l)
+				for (l = 0; l < j; ++l) /* copy word to new space */
 					s[k][l] = str[i - j + l];
-				s[k++][l] = '\0';
+				s[k++][l] = '\0'; /* terminate with null byte */
 			}
 			else
 				++i;
 		}
-		s[k] = NULL;
+		s[k] = NULL; /* terminate 2D array row with NULL */
 	}
 
 	return (s);
