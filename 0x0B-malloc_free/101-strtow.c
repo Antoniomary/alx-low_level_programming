@@ -32,7 +32,7 @@ char **strtow(char *str)
 				for (j = 0; str[i] && !_isspace(str[i]); ++j, ++i)
 					;
 
-				s[k] = (char *) malloc(sizeof(char) * j);
+				s[k] = (char *) malloc(sizeof(char) * (j + 1));
 				if (!s[k])
 					return (_free(s, i));
 
