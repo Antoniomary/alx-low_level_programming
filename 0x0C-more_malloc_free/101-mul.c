@@ -52,7 +52,10 @@ int main(int ac, char **av)
 					if (carry != 0) /* no number to operate with carry so it is left alone */
 						result[k++] = carry + '0';
 				}
-				i = k, ret = 0;
+				/* skip leading zeros */
+				for (--k; k > 0 && result[k] == '0'; --k)
+					;
+				i = ++k, ret = 0;
 			}
 		}
 
