@@ -20,13 +20,10 @@ int main(int ac, char **av)
 	n_bytes = atoi(av[1]);
 	if (n_bytes < 0)
 		return (printf("Error\n"), 2);
-	else if (n_bytes > 0)
-	{
-		arr = (char *) main;
-		for (i = 0; i < n_bytes; ++i)
-			printf("%02hhx ", arr[i]);
-		printf("\n");
-	}
+
+	arr = (char *) main;
+	for (i = 0; i < n_bytes; ++i)
+		printf("%02hhx%c", arr[i], i == n_bytes - 1 ? '\n' : ' ');
 
 	return (0);
 }
