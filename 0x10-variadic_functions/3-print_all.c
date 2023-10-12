@@ -38,6 +38,9 @@ void print_all(const char * const format, ...)
 					words = "(nil)";
 				printf("%s%s", s, words);
 				break;
+			default:
+				++i;
+				continue;
 			}
 			++i, s = ", ";
 		}
