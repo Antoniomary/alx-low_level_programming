@@ -15,9 +15,11 @@ listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 	unsigned int i;
 	listint_t *node = NULL, *temp = *head;
 
+	/* tranverse list insert position is not index 0 */
 	for (i = 0; idx && temp && (i < idx - 1); ++i)
 		temp = temp->next;
 
+	/* validates the right position to insert */
 	if (idx == 0 || i == idx - 1)
 	{
 		node = malloc(sizeof(listint_t));
@@ -25,12 +27,13 @@ listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 		{
 			node->n = n;
 
+			/* insert at beginning */
 			if (idx == 0)
 			{
 				node->next = *head;
 				*head = node;
 			}
-			else
+			else /* in-between or end */
 			{
 				node->next = temp->next;
 				temp->next = node;
