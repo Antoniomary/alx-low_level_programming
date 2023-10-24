@@ -11,27 +11,27 @@ listint_t *detect_loop_node(listint_t *head);
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	size_t count, ctr;
+	size_t count = 0, ctr;
 	listint_t *temp;
 
-	if (!head)
-		return (98);
-
-	temp = detect_loop_node((listint_t *) head);
-
-	for (count = ctr = 0; head; ++count)
+	if (head)
 	{
-		if (temp == head)
-			++ctr;
+		temp = detect_loop_node((listint_t *) head);
 
-		if (ctr == 2)
+		for (count = ctr = 0; head; ++count)
 		{
-			printf("-> [%p] %d\n", (void *) temp, temp->n);
-			break;
-		}
+			if (temp == head)
+				++ctr;
 
-		printf("[%p] %d\n", (void *) head, head->n);
-		head = head->next;
+			if (ctr == 2)
+			{
+				printf("-> [%p] %d\n", (void *) temp, temp->n);
+				break;
+			}
+
+			printf("[%p] %d\n", (void *) head, head->n);
+			head = head->next;
+		}
 	}
 
 	return (count);
