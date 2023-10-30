@@ -57,8 +57,7 @@ void print_info(const Elf64_Ehdr info)
 
 	printf("  Magic:   ");
 	for (i = 0; i < 16; ++i)
-		printf("%02hx ", info.e_ident[i]);
-	printf("\n");
+		printf("%02hx%c", info.e_ident[i], i != 15 ? ' ' : '\n');
 
 	x = info.e_ident[4] == ELFCLASS32 ? 32 : 64;
 	printf("  %-35sELF%d\n", "Class:", x);
