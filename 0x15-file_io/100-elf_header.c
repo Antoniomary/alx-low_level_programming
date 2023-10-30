@@ -37,7 +37,7 @@ int main(int ac, char **av)
 
 	if (info.e_ident[0] != 0x7f && info.e_ident[1] != 'E'
 			&& info.e_ident[2] != 'L' && info.e_ident[3] != 'F')
-		error_handler(elf_filename, " is not an ELF");
+		error_handler("Error: file not an ELF file: ", elf_filename);
 
 	print_info(info);
 
@@ -67,7 +67,7 @@ void print_info(const Elf64_Ehdr info)
 	printf("  %-35s%s\n", "OS/ABI:", os_abi(info.e_ident[EI_OSABI]));
 	printf("  %-35s%d\n", "ABI Version:", info.e_ident[EI_ABIVERSION]);
 	printf("  %-35s%s\n", "Type:", header_type(info.e_type));
-	printf("  %-35s%#lx\n", "Entry point address:", info.e_entry);
+	printf("  %-35s%#x\n", "Entry point address:", (int) info.e_entry);
 }
 
 /**
@@ -86,10 +86,10 @@ void error_handler(char *msg, char *filename)
 
 	if (filename)
 	{
-		for (len = 0; msg[len]; ++len)
+		for (len = 0; filename[len]; ++len)
 			;
 
-		write(STDERR_FILENO, msg, len);
+		write(STDERR_FILENO, filename, len);
 	}
 
 	write(STDERR_FILENO, "\n", 1);
