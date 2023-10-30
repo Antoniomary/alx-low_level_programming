@@ -132,7 +132,7 @@ char *os_abi(unsigned char os)
 	switch (os)
 	{
 		case ELFOSABI_SYSV:
-			return ("UNIX System - V");
+			return ("UNIX - System V");
 		case ELFOSABI_HPUX:
 			return ("HP-UX");
 		case ELFOSABI_NETBSD:
