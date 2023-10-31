@@ -61,7 +61,7 @@ int main(int ac, char **av)
  */
 void print_info(const Elf64_Ehdr info)
 {
-	int i;
+	unsigned int i;
 	char *s;
 
 	printf("ELF Header:\n");
@@ -77,11 +77,17 @@ void print_info(const Elf64_Ehdr info)
 	printf("  %-35s%s\n", "Class:", s);
 
 	header_data(info.e_ident[EI_DATA]);
+
 	s = info.e_ident[EI_VERSION] == EV_CURRENT ? " (current)" : "";
 	printf("  %-35s%d%s\n", "Version:", info.e_ident[EI_VERSION], s);
+
 	os_abi(info.e_ident[EI_OSABI]);
+
 	printf("  %-35s%d\n", "ABI Version:", info.e_ident[EI_ABIVERSION]);
+
 	header_type(info.e_type);
+
+/*	header_address(*/
 	printf("  %-35s%#x\n", "Entry point address:", (int) info.e_entry);
 }
 
