@@ -61,7 +61,7 @@ int main(int ac, char **av)
  */
 void print_info(const Elf64_Ehdr info)
 {
-	unsigned int i;
+	unsigned long int i;
 	char *s;
 
 	printf("ELF Header:\n");
@@ -87,12 +87,17 @@ void print_info(const Elf64_Ehdr info)
 
 	header_type(info.e_type);
 
-/*	header_address(*/
 	printf("  %-35s", "Entry point address:");
+	i = info.e_entry;
+	if (info.e_ident[EI_DATA] == ELFDATA2MSB)
+	{
+		i = ((i << 8) & 0xFF00FF00) | ((i >> 8) & 0xFF00FF);
+		i = (i << 16) | (i >> 16);
+	}
 	if (info.e_ident[EI_CLASS] == ELFCLASS32)
-		printf("%#x\n", (unsigned int) info.e_entry);
+		printf("%#x\n", (unsigned int) i);
 	else
-		printf("%#lx\n", info.e_entry);
+		printf("%#lx\n", i);
 }
 
 /**
