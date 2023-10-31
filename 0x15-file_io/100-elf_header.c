@@ -18,7 +18,7 @@ char *os_abi(unsigned char os);
 int main(int ac, char **av)
 {
 	Elf64_Ehdr info;
-	int fd, info_size;
+	int fd, info_size, close_fd;
 	char *elf_filename;
 
 	if (ac != 2)
@@ -33,7 +33,9 @@ int main(int ac, char **av)
 	if (info_size == -1 || info_size != sizeof(info))
 		error_handler("Error: Can't read ELF header", NULL);
 
-	close(fd);
+	close_fd = close(fd);
+	if (close_fd == -1)
+		error_handler("Error: Can't close fd for ", elf_filename);
 
 	if (info.e_ident[0] != 0x7f && info.e_ident[1] != 'E'
 			&& info.e_ident[2] != 'L' && info.e_ident[3] != 'F')
@@ -57,7 +59,7 @@ void print_info(const Elf64_Ehdr info)
 
 	printf("  Magic:   ");
 	for (i = 0; i < 16; ++i)
-		printf("%02hx%c", info.e_ident[i], i != 15 ? ' ' : '\n');
+		printf("%02x%c", info.e_ident[i], i != 15 ? ' ' : '\n');
 
 	x = info.e_ident[4] == ELFCLASS32 ? 32 : 64;
 	printf("  %-35sELF%d\n", "Class:", x);
@@ -134,23 +136,23 @@ char *os_abi(unsigned char os)
 		case ELFOSABI_SYSV:
 			return ("UNIX - System V");
 		case ELFOSABI_HPUX:
-			return ("HP-UX");
+			return ("UNIX - HP-UX");
 		case ELFOSABI_NETBSD:
-			return ("Unux - NetBSD");
+			return ("UNIX - NetBSD");
 		case ELFOSABI_LINUX:
 			return ("Linux");
 		case ELFOSABI_SOLARIS:
-			return ("Unix - Solaris");
+			return ("UNIX - Solaris");
 		case ELFOSABI_IRIX:
-			return ("IRIX");
+			return ("UNIX - IRIX");
 		case ELFOSABI_FREEBSD:
-			return ("Unix - FreeBSD");
+			return ("UNIX - FreeBSD");
 		case ELFOSABI_TRU64:
-			return ("TRU64 UNIX");
+			return ("UNIX TRU64");
 		case ELFOSABI_ARM:
-			return ("ARM architecture");
+			return ("ARM");
 		case ELFOSABI_STANDALONE:
-			return ("Stand-alone (embedded)");
+			return ("Stand-alone");
 	}
 
 	return ("<unknown: 53>");
