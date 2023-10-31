@@ -4,7 +4,7 @@
 
 void print_info(const Elf64_Ehdr info);
 char *header_type(unsigned char type);
-char *os_abi(unsigned char os);
+void os_abi(unsigned char os);
 
 /**
  * main - a program that displays the information contained in the
@@ -77,7 +77,7 @@ void print_info(const Elf64_Ehdr info)
 	s = info.e_ident[5] == ELFDATA2LSB ? "little" : "big";
 	printf("  %-35s2's complement, %s endian\n", "Data:", s);
 	printf("  %-35s%d (current)\n", "Version:", info.e_ident[EI_VERSION]);
-	printf("  %-35s%s\n", "OS/ABI:", os_abi(info.e_ident[EI_OSABI]));
+	os_abi(info.e_ident[EI_OSABI]);
 	printf("  %-35s%d\n", "ABI Version:", info.e_ident[EI_ABIVERSION]);
 	printf("  %-35s%s\n", "Type:", header_type(info.e_type));
 	printf("  %-35s%#x\n", "Entry point address:", (int) info.e_entry);
@@ -110,34 +110,43 @@ char *header_type(unsigned char type)
  * os_abi - a function that identifies the operating system and ABI to which
  * the object is targeted.
  * @os: used to determine the particular OS.
- *
- * Return: a string pertaining the OSABI.
  */
-char *os_abi(unsigned char os)
+void os_abi(unsigned char os)
 {
+	printf("  %-35s", "OS/ABI:");
 	switch (os)
 	{
 		case ELFOSABI_SYSV:
-			return ("UNIX - System V");
+			printf("UNIX - System V\n");
+			break;
 		case ELFOSABI_HPUX:
-			return ("UNIX - HP-UX");
+			printf("UNIX - HP-UX\n");
+			break;
 		case ELFOSABI_NETBSD:
-			return ("UNIX - NetBSD");
+			printf("UNIX - NetBSD\n");
+			break;
 		case ELFOSABI_LINUX:
-			return ("Linux");
+			printf("Linux\n");
+			break;
 		case ELFOSABI_SOLARIS:
-			return ("UNIX - Solaris");
+			printf("UNIX - Solaris\n");
+			break;
 		case ELFOSABI_IRIX:
-			return ("UNIX - IRIX");
+			printf("UNIX - IRIX\b");
+			break;
 		case ELFOSABI_FREEBSD:
-			return ("UNIX - FreeBSD");
+			printf("UNIX - FreeBSD\n");
+			break;
 		case ELFOSABI_TRU64:
-			return ("UNIX TRU64");
+			printf("UNIX TRU64\n");
+			break;
 		case ELFOSABI_ARM:
-			return ("ARM");
+			printf("ARM\n");
+			break;
 		case ELFOSABI_STANDALONE:
-			return ("Stand-alone");
+			printf("Stand-alone\n");
+			break;
+		default:
+			printf("<unknown: %x>\n", os);
 	}
-
-	return ("<unknown: 53>");
 }
