@@ -70,10 +70,10 @@ void print_info(const Elf64_Ehdr info)
 	for (i = 0; i < 16; ++i)
 		printf("%02x%c", info.e_ident[i], i != 15 ? ' ' : '\n');
 
-	if (info.e_ident[4] == ELFCLASSNONE)
+	if (info.e_ident[EI_CLASS] == ELFCLASSNONE)
 		s = "none";
 	else
-		s = info.e_ident[4] == ELFCLASS32 ? "ELF32" : "ELF64";
+		s = info.e_ident[EI_CLASS] == ELFCLASS32 ? "ELF32" : "ELF64";
 	printf("  %-35s%s\n", "Class:", s);
 
 	header_data(info.e_ident[EI_DATA]);
@@ -88,7 +88,11 @@ void print_info(const Elf64_Ehdr info)
 	header_type(info.e_type);
 
 /*	header_address(*/
-	printf("  %-35s%#x\n", "Entry point address:", (int) info.e_entry);
+	printf("  %-35s", "Entry point address:");
+	if (info.e_ident[EI_CLASS] == ELFCLASS32)
+		printf("%#x\n", (unsigned int) info.e_entry);
+	else
+		printf("%#lx\n", info.e_entry);
 }
 
 /**
