@@ -21,24 +21,33 @@ int main(int ac, char **av)
 	char *elf_filename;
 
 	if (ac != 2)
-		dprinf(STDERR_FILENO, "Usage: elf_header elf_filename\n");
+		return (dprinf(STDERR_FILENO, "Usage: elf_header elf_filename\n"), 98);
 
 	elf_filename = av[1];
 	fd = open(elf_filename, O_RDONLY);
 	if (fd == -1)
-		dprintf(STDERR_FILENO, "Error: Can't open %s\n", elf_filename);
+		return (dprintf(STDERR_FILENO, "Error: Can't open %s\n", elf_filename), 98);
 
 	info_size = read(fd, &info, sizeof(info));
 	if (info_size == -1 || info_size != sizeof(info))
+	{
 		dprintf(STDERR_FILENO, "Error: Can't read ELF header\n");
+		exit(98);
+	}
 
 	close_fd = close(fd);
 	if (close_fd == -1)
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d", fd);
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		exit(98);
+	}
 
 	if (info.e_ident[0] != 0x7f && info.e_ident[1] != 'E'
 			&& info.e_ident[2] != 'L' && info.e_ident[3] != 'F')
+	{
 		dprintf(STDERR_FILENO, "Error: %s is not an ELF file: ", elf_filename);
+		exit(98);
+	}
 
 	print_info(info);
 
