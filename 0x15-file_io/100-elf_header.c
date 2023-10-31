@@ -4,7 +4,7 @@
 
 void print_info(const Elf64_Ehdr info);
 void header_data(unsigned char data);
-void header_type(unsigned char type);
+void header_type(unsigned int type);
 void os_abi(unsigned char os);
 
 /**
@@ -61,7 +61,8 @@ int main(int ac, char **av)
  */
 void print_info(const Elf64_Ehdr info)
 {
-	unsigned long int i;
+	unsigned int i;
+	unsigned long int x;
 	char *s;
 
 	printf("ELF Header:\n");
@@ -70,10 +71,8 @@ void print_info(const Elf64_Ehdr info)
 	for (i = 0; i < 16; ++i)
 		printf("%02x%c", info.e_ident[i], i != 15 ? ' ' : '\n');
 
-	if (info.e_ident[EI_CLASS] == ELFCLASSNONE)
-		s = "none";
-	else
-		s = info.e_ident[EI_CLASS] == ELFCLASS32 ? "ELF32" : "ELF64";
+	i = info.e_ident[EI_CLASS];
+	s = i == ELFCLASSNONE ? "none" : i == ELFCLASS32 ? "ELF32" : "ELF64";
 	printf("  %-35s%s\n", "Class:", s);
 
 	header_data(info.e_ident[EI_DATA]);
@@ -85,19 +84,22 @@ void print_info(const Elf64_Ehdr info)
 
 	printf("  %-35s%d\n", "ABI Version:", info.e_ident[EI_ABIVERSION]);
 
-	header_type(info.e_type);
+	i = info.e_type;
+	if (info.e_ident[EI_DATA] == ELFDATA2MSB)
+		i >>= 8;
+	header_type(i);
 
 	printf("  %-35s", "Entry point address:");
-	i = info.e_entry;
+	x = info.e_entry;
 	if (info.e_ident[EI_DATA] == ELFDATA2MSB)
 	{
-		i = ((i << 8) & 0xFF00FF00) | ((i >> 8) & 0xFF00FF);
-		i = (i << 16) | (i >> 16);
+		x = ((x << 8) & 0xFF00FF00) | ((x >> 8) & 0xFF00FF);
+		x = (x << 16) | (x >> 16);
 	}
 	if (info.e_ident[EI_CLASS] == ELFCLASS32)
-		printf("%#x\n", (unsigned int) i);
+		printf("%#x\n", (unsigned int) x);
 	else
-		printf("%#lx\n", i);
+		printf("%#lx\n", x);
 }
 
 /**
@@ -123,11 +125,12 @@ void header_data(unsigned char data)
 			printf("<unknown: %x>\n", data);
 	}
 }
+
 /**
  * header_type - a function that identifies object file type of char ELF file.
  * @type: the number to use to determine object file type.
  */
-void header_type(unsigned char type)
+void header_type(unsigned int type)
 {
 	printf("  %-35s", "Type:");
 
