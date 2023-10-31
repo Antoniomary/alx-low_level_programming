@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 void print_info(const Elf64_Ehdr info);
+void header_data(unsigned char data);
 void header_type(unsigned char type);
 void os_abi(unsigned char os);
 
@@ -74,9 +75,8 @@ void print_info(const Elf64_Ehdr info)
 	else
 		s = info.e_ident[4] == ELFCLASS32 ? "ELF32" : "ELF64";
 	printf("  %-35s%s\n", "Class:", s);
-	s = info.e_ident[5] == ELFDATA2LSB ? "little" : "big";
 
-	printf("  %-35s2's complement, %s endian\n", "Data:", s);
+	header_data(info.e_ident[EI_DATA]);
 	s = info.e_ident[EI_VERSION] == EV_CURRENT ? " (current)" : "";
 	printf("  %-35s%d%s\n", "Version:", info.e_ident[EI_VERSION], s);
 	os_abi(info.e_ident[EI_OSABI]);
@@ -85,6 +85,29 @@ void print_info(const Elf64_Ehdr info)
 	printf("  %-35s%#x\n", "Entry point address:", (int) info.e_entry);
 }
 
+/**
+ * header_data - a funtion that determines and prints data encoding of the
+ * processor-specific data in a file.
+ * @data: the information to use to get the encoding.
+ */
+void header_data(unsigned char data)
+{
+	printf("  %-35s", "Data:");
+	switch (data)
+	{
+		case ELFDATANONE:
+			printf("none\n");
+			break;
+		case ELFDATA2LSB:
+			printf("2's complement, little endian\n");
+			break;
+		case ELFDATA2MSB:
+			printf("2's complement, big endian\n");
+			break;
+		default:
+			printf("<unknown: %x>\n", data);
+	}
+}
 /**
  * header_type - a function that identifies object file type of char ELF file.
  * @type: the number to use to determine object file type.
