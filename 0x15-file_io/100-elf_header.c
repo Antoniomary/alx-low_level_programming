@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 void print_info(const Elf64_Ehdr info);
-char *header_type(unsigned char type);
+void header_type(unsigned char type);
 void os_abi(unsigned char os);
 
 /**
@@ -79,31 +79,38 @@ void print_info(const Elf64_Ehdr info)
 	printf("  %-35s%d (current)\n", "Version:", info.e_ident[EI_VERSION]);
 	os_abi(info.e_ident[EI_OSABI]);
 	printf("  %-35s%d\n", "ABI Version:", info.e_ident[EI_ABIVERSION]);
-	printf("  %-35s%s\n", "Type:", header_type(info.e_type));
+	header_type(info.e_type);
 	printf("  %-35s%#x\n", "Entry point address:", (int) info.e_entry);
 }
 
 /**
  * header_type - a function that identifies object file type of char ELF file.
  * @type: the number to use to determine object file type.
- *
- * Return: a string pertaining details of the object file type.
  */
-char *header_type(unsigned char type)
+void *header_type(unsigned char type)
 {
+	printf("  %-35s", "Type:");
+
 	switch (type)
 	{
+		case ET_NONE:
+			printf("NONE (none)\n");
+			break;
 		case ET_REL:
-			return ("REL (Relocatable file)");
+			printf("REL (Relocatable file)\n");
+			break;
 		case ET_EXEC:
-			return ("EXEC (Executable file)");
+			printf("EXEC (Executable file)\n");
+			break;
 		case ET_DYN:
-			return ("DYN (Shared object file)");
+			printf("DYN (Shared object file)\n");
+			break;
 		case ET_CORE:
-			return ("CORE (Core file)");
+			printf("CORE (Core file)\n");	
+			break;
+		default:
+			printf("<unknown %x>\n", type);
 	}
-
-	return ("Unknown file");
 }
 
 /**
