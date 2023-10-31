@@ -21,7 +21,7 @@ int main(int ac, char **av)
 	char *elf_filename;
 
 	if (ac != 2)
-		return (dprinf(STDERR_FILENO, "Usage: elf_header elf_filename\n"), 98);
+		return (dprintf(STDERR_FILENO, "Usage: elf_header elf_filename\n"), 98);
 
 	elf_filename = av[1];
 	fd = open(elf_filename, O_RDONLY);
