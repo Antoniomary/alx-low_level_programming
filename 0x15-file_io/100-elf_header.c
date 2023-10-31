@@ -3,7 +3,6 @@
 #include <stdint.h>
 
 void print_info(const Elf64_Ehdr info);
-void error_handler(char *msg, char *filename);
 char *header_type(unsigned char type);
 char *os_abi(unsigned char os);
 
@@ -22,24 +21,24 @@ int main(int ac, char **av)
 	char *elf_filename;
 
 	if (ac != 2)
-		error_handler("Usage: elf_header elf_filename", NULL);
+		dprinf(STDERR_FILENO, "Usage: elf_header elf_filename\n");
 
 	elf_filename = av[1];
 	fd = open(elf_filename, O_RDONLY);
 	if (fd == -1)
-		error_handler("Error: Can't open the file ", elf_filename);
+		dprintf(STDERR_FILENO, "Error: Can't open %s\n", elf_filename);
 
 	info_size = read(fd, &info, sizeof(info));
 	if (info_size == -1 || info_size != sizeof(info))
-		error_handler("Error: Can't read ELF header", NULL);
+		dprintf(STDERR_FILENO, "Error: Can't read ELF header\n");
 
 	close_fd = close(fd);
 	if (close_fd == -1)
-		error_handler("Error: Can't close fd for ", elf_filename);
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d", fd);
 
 	if (info.e_ident[0] != 0x7f && info.e_ident[1] != 'E'
 			&& info.e_ident[2] != 'L' && info.e_ident[3] != 'F')
-		error_handler("Error: file not an ELF file: ", elf_filename);
+		dprintf(STDERR_FILENO, "Error: %s is not an ELF file: ", elf_filename);
 
 	print_info(info);
 
@@ -70,33 +69,6 @@ void print_info(const Elf64_Ehdr info)
 	printf("  %-35s%d\n", "ABI Version:", info.e_ident[EI_ABIVERSION]);
 	printf("  %-35s%s\n", "Type:", header_type(info.e_type));
 	printf("  %-35s%#x\n", "Entry point address:", (int) info.e_entry);
-}
-
-/**
- * error_handler - a function that handlers error in a program.
- * @msg: error message to print.
- * @filename: name of file that io operation failed on.
- */
-void error_handler(char *msg, char *filename)
-{
-	int len;
-
-	for (len = 0; msg[len]; ++len)
-		;
-
-	write(STDERR_FILENO, msg, len);
-
-	if (filename)
-	{
-		for (len = 0; filename[len]; ++len)
-			;
-
-		write(STDERR_FILENO, filename, len);
-	}
-
-	write(STDERR_FILENO, "\n", 1);
-
-	exit(98);
 }
 
 /**
