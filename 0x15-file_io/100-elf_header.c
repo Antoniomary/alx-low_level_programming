@@ -60,7 +60,7 @@ int main(int ac, char **av)
  */
 void print_info(const Elf64_Ehdr info)
 {
-	int i, x;
+	int i;
 	char *s;
 
 	printf("ELF Header:\n");
@@ -69,8 +69,11 @@ void print_info(const Elf64_Ehdr info)
 	for (i = 0; i < 16; ++i)
 		printf("%02x%c", info.e_ident[i], i != 15 ? ' ' : '\n');
 
-	x = info.e_ident[4] == ELFCLASS32 ? 32 : 64;
-	printf("  %-35sELF%d\n", "Class:", x);
+	if (info.e_ident[4] == ELFCLASSNONE)
+		s = "none";
+	else
+		s = info.e_ident[4] == ELFCLASS32 ? "ELF32" : "ELF64";
+	printf("  %-35s%s\n", "Class:", s);
 	s = info.e_ident[5] == ELFDATA2LSB ? "little" : "big";
 	printf("  %-35s2's complement, %s endian\n", "Data:", s);
 	printf("  %-35s%d (current)\n", "Version:", info.e_ident[EI_VERSION]);
