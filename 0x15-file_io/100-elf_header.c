@@ -75,8 +75,10 @@ void print_info(const Elf64_Ehdr info)
 		s = info.e_ident[4] == ELFCLASS32 ? "ELF32" : "ELF64";
 	printf("  %-35s%s\n", "Class:", s);
 	s = info.e_ident[5] == ELFDATA2LSB ? "little" : "big";
+
 	printf("  %-35s2's complement, %s endian\n", "Data:", s);
-	printf("  %-35s%d (current)\n", "Version:", info.e_ident[EI_VERSION]);
+	s = info.e_ident[EI_VERSION] == EV_CURRENT ? " (current)" : "";
+	printf("  %-35s%d%s\n", "Version:", info.e_ident[EI_VERSION], s);
 	os_abi(info.e_ident[EI_OSABI]);
 	printf("  %-35s%d\n", "ABI Version:", info.e_ident[EI_ABIVERSION]);
 	header_type(info.e_type);
@@ -87,7 +89,7 @@ void print_info(const Elf64_Ehdr info)
  * header_type - a function that identifies object file type of char ELF file.
  * @type: the number to use to determine object file type.
  */
-void *header_type(unsigned char type)
+void header_type(unsigned char type)
 {
 	printf("  %-35s", "Type:");
 
@@ -106,7 +108,7 @@ void *header_type(unsigned char type)
 			printf("DYN (Shared object file)\n");
 			break;
 		case ET_CORE:
-			printf("CORE (Core file)\n");	
+			printf("CORE (Core file)\n");
 			break;
 		default:
 			printf("<unknown %x>\n", type);
