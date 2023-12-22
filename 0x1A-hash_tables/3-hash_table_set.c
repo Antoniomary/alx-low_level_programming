@@ -20,7 +20,7 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 		return (0);
 
 	node->key = strdup(key);
-	if (!node->value)
+	if (!node->key)
 	{
 		free(node);
 		return (0);
