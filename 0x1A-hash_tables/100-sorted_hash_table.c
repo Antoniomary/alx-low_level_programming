@@ -1,5 +1,7 @@
 #include "hash_tables.h"
 
+void shash_table_sort(shash_table_t *ht, shash_node_t *node);
+
 /**
  * shash_table_create - a function that creates a hash table.
  * @size: is the size of the array.
@@ -39,7 +41,7 @@ shash_table_t *shash_table_create(unsigned long int size)
 int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 {
 	unsigned long int index;
-	shash_node_t *temp = NULL, *node = NULL;
+	shash_node_t *node = NULL;
 	char *value_dup = NULL;
 
 	if (!ht || !key || *key == '\0' || !value)
@@ -73,12 +75,26 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 	ht->array[index] = node;
 	node->snext = node->sprev = NULL;
 
+	shash_table_sort(ht, node);
+
+	return (1);
+}
+
+/**
+ * shash_table_sort - a function that arranges the sorted list.
+ * @ht:the hash table you want to look into.
+ * @node: node to be put in correct position.
+ */
+void shash_table_sort(shash_table_t *ht, shash_node_t *node)
+{
+	shash_node_t *temp = NULL;
+
 	if (ht->shead == NULL)
 		ht->shead = ht->stail = node;
 	else
 	{
 		temp = ht->shead;
-		while (temp && (strcmp(temp->key, key) < 0))
+		while (temp && (strcmp(temp->key, node->key) < 0))
 			temp = temp->snext;
 		if (temp)
 		{
@@ -97,8 +113,6 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 			ht->stail = node;
 		}
 	}
-
-	return (1);
 }
 
 /**
